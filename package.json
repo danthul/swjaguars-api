@@ -1,0 +1,31 @@
+{
+  "name": "swjaguars-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dan Thul",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "latest",
+    "body-parser": "~1.4.2",
+    "browser-sync": "^2.11.1",
+    "chalk": "^1.1.1",
+    "connect-flash": "~0.1.1",
+    "cookie-parser": "~1.0.0",
+    "dotenv": "^2.0.0",
+    "express": "~4.13.1",
+    "express-session": "~1.0.0",
+    "log-symbols": "^1.0.2",
+    "method-override": "~2.0.2",
+    "moment": "^2.11.2",
+    "mongodb": "^2.1.7",
+    "mongoose": "^4.4.7",
+    "morgan": "~1.0.0",
+    "passport": "^0.1.18",
+    "passport-local": "~0.1.6"
+  }
+}
