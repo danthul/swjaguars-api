@@ -2,6 +2,7 @@ module.exports = function(app, Article, passport) {
   var express = require("express");
   var router = express.Router(); // get an instance of the express Router
   var moment = require("moment");
+  var sanitizeHtml = require("sanitize-html");
 
   // server routes ===========================================================
   // handle things like api calls
@@ -32,9 +33,9 @@ module.exports = function(app, Article, passport) {
       if (auth) {
         var article = new Article(); // create a new instance of the Article model
         article.name = req.body.name; // set the article name (comes from the request)
-        article.body = req.body.body;
+        article.body = sanitizeHtml(req.body.body);
         if (req.body.updated) {
-          article.updated = moment(req.body.updated, "MM/DD/YYYY hh:mm");
+          article.updated = moment(req.body.updated);
         }
 
         // save the article and check for errors
@@ -55,8 +56,6 @@ module.exports = function(app, Article, passport) {
           if (err) {
             res.send(err);
           } else {
-            // article.updated = moment(article.updated);
-            console.log(article);
             res.json(article);
           }
         });
@@ -98,22 +97,22 @@ module.exports = function(app, Article, passport) {
             res.send(err);
           }
           article.name = req.body.name; // update the article name (comes from the request)
-          article.body = req.body.body;
-          article.description = req.body.description;
+          article.body = sanitizeHtml(req.body.body);
+          // article.description = req.body.description;
           if (req.body.updated) {
-            article.updated = moment(req.body.updated, "MM/DD/YYYY hh:mm");
+            article.updated = moment(req.body.updated);
           }
 
           // save the article
           article.save(function(err) {
             if (err) {
-              res.send(err);
+              res.sendStatus(err);
             }
             res.json({ message: "Article updated!" });
           });
         });
       } else {
-        res.send(401);
+        res.sendStatus(401);
       }
     })
     // delete the article with this id (accessed at DELETE http://localhost:4010/api/articles/:article_id)
@@ -151,17 +150,28 @@ module.exports = function(app, Article, passport) {
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
+      "Access-Control-Allow-Methods",
+      "GET, PUT, POST, DELETE, OPTIONS"
+    );
+    res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
     );
-    next();
+    //intercepts OPTIONS method
+    if ("OPTIONS" === req.method) {
+      //respond with 200
+      res.sendStatus(200);
+    } else {
+      //move on
+      next();
+    }
   });
   app.use("/api", router);
 };
 
 var auth = function(req, res, next) {
   if (!req.isAuthenticated()) {
-    res.send(401);
+    res.sendStatus(401);
   } else {
     next();
   }

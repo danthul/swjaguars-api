@@ -15,7 +15,9 @@ var session = require("express-session");
 // config files
 var db = require("./config/db");
 var port = process.env.PORT || 4010; // set our port
-mongoose.connect(db.url); // connect to our mongoDB database
+mongoose.connect(db.url, {
+  useMongoClient: true
+}); // connect to our mongoDB database
 
 require("./config/passport")(passport); // pass passport for configuration
 

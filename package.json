@@ -26,6 +26,7 @@
     "mongoose": "^4.4.7",
     "morgan": "~1.0.0",
     "passport": "^0.1.18",
-    "passport-local": "~0.1.6"
+    "passport-local": "~0.1.6",
+    "sanitize-html": "^1.16.1"
   }
 }
