@@ -11,7 +11,7 @@ var session = require("express-session");
 
 // configuration ===========================================
 var app = express();
-mongoose.Promise = require("bluebird");
+mongoose.Promise = global.Promise;
 
 // config files
 var db = require("./config/db");
